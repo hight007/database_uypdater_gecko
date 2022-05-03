@@ -1,5 +1,3 @@
-export const apiUrl = "localhost:2010/api/";
-
 // Error Code
 export const E_PICKER_CANCELLED = "E_PICKER_CANCELLED";
 export const E_PICKER_CANNOT_RUN_CAMERA_ON_SIMULATOR =
@@ -12,16 +10,46 @@ export const E_DEVELOPER_ERROR = "E_DEVELOPER_ERROR";
 export const TIMEOUT_NETWORK = "ECONNABORTED"; // request service timeout
 export const NOT_CONNECT_NETWORK = "NOT_CONNECT_NETWORK";
 
+//////////////// Localization Begin ////////////////
+export const NETWORK_CONNECTION_MESSAGE =
+  "Cannot connect to server, Please try again.";
+export const NETWORK_TIMEOUT_MESSAGE =
+  "A network timeout has occurred, Please try again.";
+export const UPLOAD_PHOTO_FAIL_MESSAGE =
+  "An error has occurred. The photo was unable to upload.";
+
+export const YES = "YES";
+export const NO = "NO";
+export const OK = "ok";
+export const NOK = "nok";
+
+// export const apiUrl = "http://localhost:2010/api/";
+export const apiUrl = "http://10.196.28.68:2010/api/";
+
 export const apiName = {
   gecko: {
-    tbWidgetVersion : "gecko/tbWidgetVersion",
-    tbWidget : "gecko/tbWidget",
-    tbFilterVersion : "gecko/tbFilterVersion",
-    tbFilter : "gecko/tbFilter",
-    tbDashboardVersion : "gecko/tbDashboardVersion",
-    tbDashboard : "gecko/tbDashboard",
-    tbDatasourceVersion : "gecko/tbDatasourceVersion",
-    tbDatasource : "gecko/tbDatasource",
-    tbGeckoItemNameList : "gecko/tbGeckoItemNameList",
+    tbWidgetVersion: "gecko/tbWidgetVersion",
+    tbWidget: "gecko/tbWidget",
+    tbFilterVersion: "gecko/tbFilterVersion",
+    tbFilter: "gecko/tbFilter",
+    tbDashboardVersion: "gecko/tbDashboardVersion",
+    tbDashboard: "gecko/tbDashboard",
+    tbDatasourceVersion: "gecko/tbDatasourceVersion",
+    tbDatasource: "gecko/tbDatasource",
+    tbGeckoItemNameList: "gecko/tbGeckoItemNameList",
+    version: "gecko/version",
   },
+  storeConnection: {
+    connection: "storeConnection/connection",
+  },
+  storeProcedures: {
+    versionList: "storeProcedures/versionList",
+    query: "storeProcedures/query",
+    storeProcedures: "storeProcedures/storeProcedures",
+  },
+};
+
+export const key = {
+  token: "token",
+  isLogined: "isLogined",
 };

@@ -4,7 +4,6 @@ import { useNavigate, useLocation } from "react-router-dom";
 const Side_menu = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  // const location = "m"
 
   const menu_master_render = () => {
     return (
@@ -18,7 +17,7 @@ const Side_menu = () => {
           <i className="nav-icon fas fa-compress" />
 
           <p>
-            master
+            Master
             <i className="right fas fa-angle-left" />
           </p>
         </a>
@@ -36,31 +35,44 @@ const Side_menu = () => {
               <p>Gecko item</p>
             </a>
           </li>
+          <li className="nav-item">
+            <a
+              onClick={() => navigate("/Master/connection")}
+              className={
+                location.pathname === "/Master/connection"
+                  ? "nav-link active"
+                  : "nav-link"
+              }
+            >
+              <i className="far fa-circle nav-icon" />
+              <p>Connection</p>
+            </a>
+          </li>
         </ul>
       </li>
     );
   };
 
-  const menu_version = () => {
+  const menu_gecko_version = () => {
     return (
       <li className="nav-item menu-open">
         <a
           className={`nav-link ${
-            location.pathname.includes("Version") ? "active" : ""
+            location.pathname.includes("gecko_version") ? "active" : ""
           }`}
         >
           <i className="nav-icon fas fa-code-branch" />
           <p>
-            Version
+            Gecko
             <i className="right fas fa-angle-left" />
           </p>
         </a>
         <ul className="nav nav-treeview">
           <li className="nav-item">
             <a
-              onClick={() => navigate("/Version/Snap")}
+              onClick={() => navigate("/gecko_version/snap")}
               className={
-                location.pathname === "/Version/Snap"
+                location.pathname === "/gecko_version/snap"
                   ? "nav-link active"
                   : "nav-link"
               }
@@ -71,9 +83,9 @@ const Side_menu = () => {
           </li>
           <li className="nav-item">
             <a
-              onClick={() => navigate("/Version/Deploy")}
+              onClick={() => navigate("/gecko_version/deploy")}
               className={
-                location.pathname === "/Version/Deploy"
+                location.pathname === "/gecko_version/deploy"
                   ? "nav-link active"
                   : "nav-link"
               }
@@ -87,11 +99,59 @@ const Side_menu = () => {
     );
   };
 
+  const menu_storeProcedures_version = () => {
+    return (
+      <li className="nav-item menu-open">
+        <a
+          className={`nav-link ${
+            location.pathname.includes("storeProcedures") ? "active" : ""
+          }`}
+        >
+          <i className="nav-icon fas fa-code-branch" />
+          <p>
+            Store procedures
+            <i className="right fas fa-angle-left" />
+          </p>
+        </a>
+        <ul className="nav nav-treeview">
+          <li className="nav-item">
+            <a
+              onClick={() => navigate("/storeProcedures/snap")}
+              className={
+                location.pathname === "/storeProcedures/snap"
+                  ? "nav-link active"
+                  : "nav-link"
+              }
+            >
+              <i className="far fa-circle nav-icon" />
+              <p>Snap</p>
+            </a>
+          </li>
+          <li className="nav-item">
+            <a
+              onClick={() => navigate("/storeProcedures/deploy")}
+              className={
+                location.pathname === "/storeProcedures/deploy"
+                  ? "nav-link active"
+                  : "nav-link"
+              }
+            >
+              <i className="far fa-circle nav-icon" />
+              <p>Deploy</p>
+            </a>
+          </li>
+        </ul>
+      </li>
+    );
+  }
+
   return (
     <aside className="main-sidebar sidebar-dark-primary elevation-4">
       <a
         onClick={() => {
-          navigate("/home");
+          // navigate("/home");
+          window.open(
+            "/home", "_blank");
         }}
         className="brand-link"
         style={{ cursor: "pointer" }}
@@ -142,8 +202,9 @@ const Side_menu = () => {
                   role="menu"
                   data-accordion="false"
                 >
+                  {menu_gecko_version()}
+                  {menu_storeProcedures_version()}
                   {menu_master_render()}
-                  {menu_version()}
                 </ul>
               </nav>
             </div>
