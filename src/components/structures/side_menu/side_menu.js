@@ -104,7 +104,7 @@ const Side_menu = () => {
       <li className="nav-item menu-open">
         <a
           className={`nav-link ${
-            location.pathname.includes("gecko_version") ? "active" : ""
+            location.pathname.includes("Migration") ? "active" : ""
           }`}
         >
           <i className="nav-icon fas fa-compress-alt" />

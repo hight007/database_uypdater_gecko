@@ -9,7 +9,7 @@ const Home = () => {
 
   const [userInfo, setuserInfo] = useState("");
 
-  return <div className="content-wrapper">asdasdasd</div>;
+  return <div className="content-wrapper"></div>;
 };
 
 export default Home;
