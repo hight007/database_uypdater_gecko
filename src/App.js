@@ -23,23 +23,28 @@ import Connection from "./components/master/Connection";
 //Authen
 import Login from "./components/Login";
 
+//Migration
+import Migration from "./components/Migration";
+
 import "animate.css";
 import { key } from "./constants";
+import "./App.css"
+
 const App = () => {
   const [value, setValue] = useState(0); // integer state
 
   const doForceUpdate = () => {
     try {
-      console.log(value);
+
       setValue(value + 1);
     } catch (error) {
-      console.log(error);
+
     }
   };
 
   const hasPermission = (element) => {
     if (!localStorage.getItem(key.isLogined)) {
-      console.log("Permission exists");
+
       return <Login />;
     }
 
@@ -47,10 +52,10 @@ const App = () => {
   };
 
   const showElement = (element) => {
-    console.log(localStorage.getItem(key.isLogined));
+
     const isLogined = localStorage.getItem(key.isLogined);
     if (isLogined === "true") {
-      console.log("ok");
+
       return element;
     }
   };
@@ -61,7 +66,10 @@ const App = () => {
       {showElement(<SideMenu />)}
       <Routes>
         <Route path="/Home" element={hasPermission(<Home />)} />
-        <Route path="/Login" element={hasPermission(<Login forceUpdate={doForceUpdate} />)} />
+        <Route
+          path="/Login"
+          element={hasPermission(<Login forceUpdate={doForceUpdate} />)}
+        />
 
         {/* master */}
         <Route
@@ -88,6 +96,12 @@ const App = () => {
         <Route
           path="/storeProcedures/deploy"
           element={hasPermission(<SpDeploy />)}
+        />
+
+        {/* Migration */}
+        <Route
+          path="/Migration/"
+          element={hasPermission(<Migration />)}
         />
 
         <Route path="/" element={hasPermission(<Navigate to="/Login" />)} />

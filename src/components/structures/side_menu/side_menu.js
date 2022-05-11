@@ -99,6 +99,39 @@ const Side_menu = () => {
     );
   };
 
+  const menu_migration = () => {
+    return (
+      <li className="nav-item menu-open">
+        <a
+          className={`nav-link ${
+            location.pathname.includes("gecko_version") ? "active" : ""
+          }`}
+        >
+          <i className="nav-icon fas fa-compress-alt" />
+          <p>
+            Migration
+            <i className="right fas fa-angle-left" />
+          </p>
+        </a>
+        <ul className="nav nav-treeview">
+          <li className="nav-item">
+            <a
+              onClick={() => navigate("/Migration")}
+              className={
+                location.pathname === "/Migration"
+                  ? "nav-link active"
+                  : "nav-link"
+              }
+            >
+              <i className="far fa-circle nav-icon" />
+              <p>Migration</p>
+            </a>
+          </li>
+        </ul>
+      </li>
+    );
+  }
+
   const menu_storeProcedures_version = () => {
     return (
       <li className="nav-item menu-open">
@@ -107,7 +140,7 @@ const Side_menu = () => {
             location.pathname.includes("storeProcedures") ? "active" : ""
           }`}
         >
-          <i className="nav-icon fas fa-code-branch" />
+          <i className="nav-icon fas fa-warehouse" />
           <p>
             Store procedures
             <i className="right fas fa-angle-left" />
@@ -144,6 +177,8 @@ const Side_menu = () => {
       </li>
     );
   }
+
+  
 
   return (
     <aside className="main-sidebar sidebar-dark-primary elevation-4">
@@ -204,6 +239,7 @@ const Side_menu = () => {
                 >
                   {menu_gecko_version()}
                   {menu_storeProcedures_version()}
+                  {menu_migration()}
                   {menu_master_render()}
                 </ul>
               </nav>
