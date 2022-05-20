@@ -23,8 +23,8 @@ export const NO = "NO";
 export const OK = "ok";
 export const NOK = "nok";
 
-// export const apiUrl = "http://localhost:2010/api/";
-export const apiUrl = "http://10.196.28.68:2010/api/";
+export const apiUrl = "http://localhost:2010/api/";
+// export const apiUrl = "http://10.196.28.68:2010/api/";
 
 export const apiName = {
   gecko: {

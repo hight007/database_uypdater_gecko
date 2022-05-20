@@ -68,7 +68,7 @@ const App = () => {
         <Route path="/Home" element={hasPermission(<Home />)} />
         <Route
           path="/Login"
-          element={hasPermission(<Login forceUpdate={doForceUpdate} />)}
+          element={<Login forceUpdate={doForceUpdate} />}
         />
 
         {/* master */}
