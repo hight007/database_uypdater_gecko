@@ -38,7 +38,7 @@ const Connection = () => {
       data
     );
     if (response.data.api_result == OK) {
-      doGetConnectionList()
+      doGetConnectionList();
       Swal.fire({
         title: "Create connection completed",
         icon: "success",
@@ -216,6 +216,38 @@ const Connection = () => {
     }
   };
 
+  const doDeleteConnection = async (connection_name, connection_type) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const response = await httpClient.delete(
+          apiName.storeConnection.connection,
+          {
+            data: { connection_name, connection_type },
+          }
+        );
+
+        if (response.data.api_result == OK) {
+          doGetConnectionList();
+          Swal.fire("Deleted!", "Your Connection has been deleted.", "success");
+        } else {
+          Swal.fire(
+            "Failed!",
+            "Your Connection has been failed to delete.",
+            "error"
+          );
+        }
+      }
+    });
+  };
+
   const renderConnection = () => {
     const renderTable = (itemData) => {
       return (
@@ -251,7 +283,17 @@ const Connection = () => {
           {/* <td>{item.updateBy}</td> */}
           <td>{moment(item.createdAt).format("DD-MMM-YY HH:MM:ss")}</td>
           <td>{moment(item.updatedAt).format("DD-MMM-YY HH:MM:ss")}</td>
-          <td></td>
+          <td>
+            <button
+              className={"btn btn-danger"}
+              onClick={(e) => {
+                e.preventDefault();
+                doDeleteConnection(item.connection_name, item.connection_type);
+              }}
+            >
+              Delete
+            </button>
+          </td>
         </tr>
       ));
     };

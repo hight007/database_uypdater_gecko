@@ -41,9 +41,9 @@ const Login = (props) => {
   };
 
   const doLogin = async () => {
-    doSetisLogined(true);
+    // doSetisLogined(true);
     // navigate("/home");
-    window.location.replace("/home");
+    // window.location.replace("/home");
   };
 
   function onSuccess(googleUser) {

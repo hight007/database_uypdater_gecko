@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import InfiniteScroll from 'react-infinite-scroller';
 
 const Home = () => {
   useEffect(() => {
