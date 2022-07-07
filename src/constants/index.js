@@ -45,7 +45,10 @@ export const apiName = {
   storeProcedures: {
     versionList: "storeProcedures/versionList",
     query: "storeProcedures/query",
+    query_updated: "storeProcedures/query_updated",
     storeProcedures: "storeProcedures/storeProcedures",
+    storeProceduresUpdate: "storeProcedures/storeProceduresUpdate",
+    updatedSpName: "storeProcedures/compareStoreProceduresWithLastVersion",
   },
   migration: {
     tbExternalConnections: "migration/tbExternalConnections",

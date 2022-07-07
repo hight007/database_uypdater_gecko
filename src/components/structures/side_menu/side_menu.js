@@ -147,6 +147,19 @@ const Side_menu = () => {
           </p>
         </a>
         <ul className="nav nav-treeview">
+        <li className="nav-item">
+            <a
+              onClick={() => navigate("/storeProcedures/update")}
+              className={
+                location.pathname === "/storeProcedures/update"
+                  ? "nav-link active"
+                  : "nav-link"
+              }
+            >
+              <i className="far fa-circle nav-icon" />
+              <p>Update</p>
+            </a>
+          </li>
           <li className="nav-item">
             <a
               onClick={() => navigate("/storeProcedures/snap")}

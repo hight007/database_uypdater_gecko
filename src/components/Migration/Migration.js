@@ -82,6 +82,7 @@ const Migration = () => {
               apiName.migration.tbExternalConnections,
               config
             );
+            config.forceCreateTable = true
             const response_tbDatasource = await httpClient.patch(
               apiName.migration.tbDatasource,
               config

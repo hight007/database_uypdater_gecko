@@ -39,11 +39,12 @@ const Deploy = () => {
     }
   };
 
-  const downloadRawQuery = () => {
+  const downloadRawQuery = (isFull = true) => {
     if (version && version != "") {
-      window.open(
-        join(apiUrl, apiName.storeProcedures.query, `/version=${version}`)
-      );
+      const api_name = isFull
+        ? apiName.storeProcedures.query
+        : apiName.storeProcedures.query_updated;
+      window.open(join(apiUrl, api_name, `/version=${version}`));
     } else {
       Swal.fire({
         title: "Please select version",
@@ -111,18 +112,32 @@ const Deploy = () => {
                   </select>
                 </div>
               </div>
-              <div className="col-sm-6">
-                <label>Downlaod SQL</label>
+              <div className="col-sm-3">
+                <label>Download Full SQL</label>
                 <br></br>
                 <button
                   type="button"
                   className="btn btn-primary"
                   onClick={(e) => {
                     e.preventDefault();
-                    downloadRawQuery();
+                    downloadRawQuery(true);
                   }}
                 >
-                  <i class="fas fa-cloud-download-alt"></i> Download
+                  <i class="fas fa-cloud-download-alt"></i> Download Full
+                </button>
+              </div>
+              <div className="col-sm-3">
+                <label>Download Updated SQL</label>
+                <br></br>
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    downloadRawQuery(false);
+                  }}
+                >
+                  <i class="fas fa-cloud-download-alt"></i> Download updated
                 </button>
               </div>
               <div className="col-sm-12">
@@ -269,7 +284,7 @@ const Deploy = () => {
   const doSetconnectionListDropDown = (item) => {
     var listDropDown = [];
 
-    listDropDown = _.filter(connectionList, function (item) {
+    listDropDown = _.filter(connectionList, function(item) {
       return item.connection_type == "core";
     });
 

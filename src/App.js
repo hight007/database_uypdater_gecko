@@ -12,9 +12,10 @@ import Footer from "./components/structures/footer";
 import Snap from "./components/geckoVersion/snap";
 import Deploy from "./components/geckoVersion/deploy";
 
-//Gecko version
+//storeProcedures
 import SpSnap from "./components/storeProcedures/Snap";
 import SpDeploy from "./components/storeProcedures/Deploy";
+import SpUpdate from "./components/storeProcedures/Updated/";
 
 //Master
 import Gecko_item from "./components/master/Gecko_item";
@@ -28,23 +29,19 @@ import Migration from "./components/Migration";
 
 import "animate.css";
 import { key } from "./constants";
-import "./App.css"
+import "./App.css";
 
 const App = () => {
   const [value, setValue] = useState(0); // integer state
 
   const doForceUpdate = () => {
     try {
-
       setValue(value + 1);
-    } catch (error) {
-
-    }
+    } catch (error) {}
   };
 
   const hasPermission = (element) => {
     if (!localStorage.getItem(key.isLogined)) {
-
       return <Login />;
     }
 
@@ -52,10 +49,8 @@ const App = () => {
   };
 
   const showElement = (element) => {
-
     const isLogined = localStorage.getItem(key.isLogined);
     if (isLogined === "true") {
-
       return element;
     }
   };
@@ -66,10 +61,7 @@ const App = () => {
       {showElement(<SideMenu />)}
       <Routes>
         <Route path="/Home" element={hasPermission(<Home />)} />
-        <Route
-          path="/Login"
-          element={<Login forceUpdate={doForceUpdate} />}
-        />
+        <Route path="/Login" element={<Login forceUpdate={doForceUpdate} />} />
 
         {/* master */}
         <Route
@@ -97,12 +89,13 @@ const App = () => {
           path="/storeProcedures/deploy"
           element={hasPermission(<SpDeploy />)}
         />
+        <Route
+          path="/storeProcedures/update"
+          element={hasPermission(<SpUpdate />)}
+        />
 
         {/* Migration */}
-        <Route
-          path="/Migration/"
-          element={hasPermission(<Migration />)}
-        />
+        <Route path="/Migration/" element={hasPermission(<Migration />)} />
 
         <Route path="/" element={hasPermission(<Navigate to="/Login" />)} />
         <Route path="*" element={hasPermission(<Navigate to="/Login" />)} />
