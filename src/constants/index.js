@@ -59,4 +59,5 @@ export const apiName = {
 export const key = {
   token: "token",
   isLogined: "isLogined",
+  loginTime: "loginTime",
 };

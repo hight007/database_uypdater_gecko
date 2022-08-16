@@ -1,5 +1,7 @@
+import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 import { key } from "../../constants";
 // import { GoogleLogin } from "react-google-login";
 
@@ -14,7 +16,7 @@ const Login = (props) => {
     const API_KEY = "AIzaSyD7QYAx_MCejyOpEuW_y5xZf-I9gFea5YI";
     const SCOPES = "https://www.googleapis.com/auth/plus.login";
 
-    window.gapi.load("auth2", function () {
+    window.gapi.load("auth2", function() {
       window.gapi.auth2.init({
         apiKey: API_KEY,
         clientId: CLIENT_ID,
@@ -37,6 +39,10 @@ const Login = (props) => {
 
   const doSetisLogined = async (value) => {
     await localStorage.setItem(key.isLogined, value);
+    await localStorage.setItem(
+      key.loginTime,
+      moment().format("DD-MMM-yyyy HH:mm:ss")
+    );
     props.forceUpdate();
   };
 
@@ -44,6 +50,12 @@ const Login = (props) => {
     // doSetisLogined(true);
     // navigate("/home");
     // window.location.replace("/home");
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      html:
+        "<p>Web not support login by user name or email ,</p> <p>Please log in by google</p>",
+    });
   };
 
   function onSuccess(googleUser) {
@@ -53,10 +65,15 @@ const Login = (props) => {
     console.log("Name: " + profile.getName());
     console.log("Image URL: " + profile.getImageUrl());
     console.log("Email: " + profile.getEmail()); // This is null if the 'email' scope is not present.
-    if (profile.getName()) {
-      doSetisLogined(true);
-      // navigate("/home");
-      window.location.replace("/home");
+
+    const email = profile.getEmail();
+    if (email != null) {
+      if (email.includes("@celestica.com")) {
+        doSetisLogined(true);
+        console.log("pass");
+        // navigate("/home");
+        window.location.replace("/home");
+      }
     }
   }
 

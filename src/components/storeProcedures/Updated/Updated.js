@@ -7,6 +7,7 @@ import moment from "moment";
 import Swal from "sweetalert2";
 import _ from "lodash";
 import DynamicTable from "../../../utils/dynamicTable";
+import { useRef } from "react";
 
 const Updated = () => {
   const [version, setversion] = useState("");
@@ -16,18 +17,27 @@ const Updated = () => {
 
   const [sugressionsVersionList, setsugressionsVersionList] = useState([]);
   const [sugressionSpName, setsugressionSpName] = useState([]);
+  const [currentVersion_spName, setcurrentVersion_spName] = useState([]);
 
   const [spList, setspList] = useState([]);
 
+  //Ref
+  const debounceSearch = useRef(
+    _.debounce((e) => doGetStoreProceduresUpdate(e), 500)
+  ).current;
+  const searchChanged = (e) => {
+    e.persist();
+    debounceSearch(e);
+  };
+
   useEffect(() => {
     initialize();
-    
   }, []);
 
   const initialize = async () => {
     try {
       setisLoad(true);
-      doGetStoreProceduresUpdate(); 
+      // doGetStoreProceduresUpdate();
       await doGetSugressionsVersionList();
       await doGetSugressionsUpdatedSpNameList();
     } catch (error) {
@@ -69,7 +79,8 @@ const Updated = () => {
       return sugressionsVersionList.map((item) => <option value={item} />);
     };
     const renderSugressionsUpdatedSpName = () => {
-      return sugressionSpName.map((item) => <option value={item} />);
+      const diffSpName = _.difference(sugressionSpName, currentVersion_spName);
+      return diffSpName.map((item) => <option value={item} />);
     };
 
     return (
@@ -93,6 +104,7 @@ const Updated = () => {
                   autoComplete="true"
                   onChange={(e) => {
                     setversion(e.target.value);
+                    searchChanged(e);
                   }}
                   className="form-control"
                   placeholder="Enter version"
@@ -189,25 +201,41 @@ const Updated = () => {
     }
   };
 
-  const doGetStoreProceduresUpdate = async () => {
+  const doGetStoreProceduresUpdate = async (e = null) => {
+    setisLoad(true);
     let result = [];
-    if (version == null || version == "") {
-      result = await httpClient.get(
-        apiName.storeProcedures.storeProceduresUpdate
-      );
-    } else {
-      result = await httpClient.get(
-        apiName.storeProcedures.storeProceduresUpdate + "/" + version
-      );
+    try {
+      if (e) {
+        result = await httpClient.get(
+          apiName.storeProcedures.storeProceduresUpdate + "/" + e.target.value
+        );
+      } else {
+        if (version == null || version == "") {
+          result = await httpClient.get(
+            apiName.storeProcedures.storeProceduresUpdate
+          );
+        } else {
+          result = await httpClient.get(
+            apiName.storeProcedures.storeProceduresUpdate + "/" + version
+          );
+        }
+      }
+    } catch (error) {
+    } finally {
+      setisLoad(false);
+    }
+    const currentVersion_spName = _.map(result.data.result, "name");
+    setcurrentVersion_spName(currentVersion_spName);
+    for (let index = 0; index < result.data.result.length; index++) {
+      const item = result.data.result[index];
+      item.action = renderDeleteButton(item.name, item.version);
     }
 
-    console.log(result.data.result);
     setspList(result.data.result);
   };
 
   const renderTable = () => {
     if (spList.length > 0) {
-      console.log(spList);
       return (
         <div className="card card-success">
           <div className="card-header">
@@ -224,6 +252,43 @@ const Updated = () => {
         </div>
       );
     }
+  };
+
+  const renderDeleteButton = (name, version) => {
+    return (
+      <button
+        className="btn btn-danger"
+        onClick={() => doDeleteSpName(name, version)}
+      >
+        <i className="fas fa-trash-alt" />
+      </button>
+    );
+  };
+
+  const doDeleteSpName = async (name, version) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: `Do yo want to delete ${name} on version ${version}`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const result = await httpClient.delete(
+          apiName.storeProcedures.storeProceduresUpdate,
+          { data: { name, version } }
+        );
+        console.log(result.data.api_result);
+        if (result.data.api_result == OK) {
+          Swal.fire("Deleted!", "Your sp has been deleted.", "success");
+          doGetStoreProceduresUpdate({ target: { value: version } });
+        } else {
+          Swal.fire("Error!", "Please try again...", "error");
+        }
+      }
+    });
   };
 
   return (
