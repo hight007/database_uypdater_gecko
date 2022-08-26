@@ -7,7 +7,7 @@ const Side_menu = () => {
 
   const menu_master_render = () => {
     return (
-      <li className="nav-item menu-open">
+      <li className="nav-item">
         <a
           href="#"
           className={`nav-link ${
@@ -55,7 +55,7 @@ const Side_menu = () => {
 
   const menu_gecko_version = () => {
     return (
-      <li className="nav-item menu-open">
+      <li className="nav-item">
         <a
           className={`nav-link ${
             location.pathname.includes("gecko_version") ? "active" : ""
@@ -101,7 +101,7 @@ const Side_menu = () => {
 
   const menu_migration = () => {
     return (
-      <li className="nav-item menu-open">
+      <li className="nav-item">
         <a
           className={`nav-link ${
             location.pathname.includes("Migration") ? "active" : ""
@@ -130,11 +130,11 @@ const Side_menu = () => {
         </ul>
       </li>
     );
-  }
+  };
 
   const menu_storeProcedures_version = () => {
     return (
-      <li className="nav-item menu-open">
+      <li className="nav-item">
         <a
           className={`nav-link ${
             location.pathname.includes("storeProcedures") ? "active" : ""
@@ -147,7 +147,7 @@ const Side_menu = () => {
           </p>
         </a>
         <ul className="nav nav-treeview">
-        <li className="nav-item">
+          <li className="nav-item">
             <a
               onClick={() => navigate("/storeProcedures/update")}
               className={
@@ -189,17 +189,61 @@ const Side_menu = () => {
         </ul>
       </li>
     );
-  }
+  };
 
-  
+  const menu_reportAnalytics = () => {
+    return (
+      <li className="nav-item">
+        <a
+          className={`nav-link ${
+            location.pathname.includes("ReportAnalytics") ? "active" : ""
+          }`}
+        >
+          <i className="nav-icon fas fa-chart-area" />
+
+          <p>
+            Report Analytics
+            <i className="right fas fa-angle-left" />
+          </p>
+        </a>
+        <ul className="nav nav-treeview">
+          <li className="nav-item">
+            <a
+              onClick={() => navigate("/ReportAnalytics/EventLogRawData")}
+              className={
+                location.pathname === "/ReportAnalytics/EventLogRawData"
+                  ? "nav-link active"
+                  : "nav-link"
+              }
+            >
+              <i className="far fa-circle nav-icon" />
+              <p>EventLog RawData</p>
+            </a>
+          </li>
+          <li className="nav-item">
+            <a
+              onClick={() => navigate("/ReportAnalytics/duration_analysis")}
+              className={
+                location.pathname === "/ReportAnalytics/duration_analysis"
+                  ? "nav-link active"
+                  : "nav-link"
+              }
+            >
+              <i className="far fa-circle nav-icon" />
+              <p>Duration analysis</p>
+            </a>
+          </li>
+        </ul>
+      </li>
+    );
+  };
 
   return (
     <aside className="main-sidebar sidebar-dark-primary elevation-4">
       <a
         onClick={() => {
           // navigate("/home");
-          window.open(
-            "/home", "_blank");
+          window.open("/home", "_blank");
         }}
         className="brand-link"
         style={{ cursor: "pointer" }}
@@ -253,6 +297,8 @@ const Side_menu = () => {
                   {menu_gecko_version()}
                   {menu_storeProcedures_version()}
                   {menu_migration()}
+                  {menu_reportAnalytics()}
+                  
                   {menu_master_render()}
                 </ul>
               </nav>

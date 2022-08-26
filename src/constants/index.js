@@ -23,9 +23,9 @@ export const NO = "NO";
 export const OK = "ok";
 export const NOK = "nok";
 
-export const apiUrl = "http://localhost:2010/api/";
-// export const apiUrl = "http://10.196.28.68:2010/api/";
-
+// export const apiUrl = "http://localhost:2010/api/";
+export const apiUrl = "http://10.196.28.68:2010/api/";
+export const secretKey = "C31e$t!c@";
 export const apiName = {
   gecko: {
     tbWidgetVersion: "gecko/tbWidgetVersion",
@@ -53,6 +53,11 @@ export const apiName = {
   migration: {
     tbExternalConnections: "migration/tbExternalConnections",
     tbDatasource: "migration/tbDatasource",
+  },
+  analytics: {
+    bu: "analytics/bu",
+    eventLogRawData: "analytics/eventLogRawData",
+    duration_analysis: "analytics/duration_analysis",
   },
 };
 

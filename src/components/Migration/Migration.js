@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { NavLink } from "react-router-dom";
-import { apiName, apiUrl, OK } from "../../constants";
+import { apiName, apiUrl, OK, secretKey } from "../../constants";
 import { httpClient } from "../../utils/httpClient";
 import Swal from "sweetalert2";
 import _ from "lodash";
@@ -8,17 +8,21 @@ import { JSONTree } from "react-json-tree";
 import DynamicTable from "../../utils/dynamicTable";
 import SelectSearch from "react-select-search";
 import Fuse from "fuse.js";
+import CryptoJS from "crypto-js";
 
 const Migration = () => {
   const [isLoad, setisLoad] = useState(false);
 
-  const [connectionListDropDown, setconnectionListDropDown] = useState([])
-  const [mantisConnectionListDropDown, setmantisConnectionListDropDown] =
-    useState([]);
-  const [visionConnectionListDropDown, setvisionConnectionListDropDown] =
-    useState([]);
+  const [connectionListDropDown, setconnectionListDropDown] = useState([]);
+  const [
+    mantisConnectionListDropDown,
+    setmantisConnectionListDropDown,
+  ] = useState([]);
+  const [
+    visionConnectionListDropDown,
+    setvisionConnectionListDropDown,
+  ] = useState([]);
 
-    
   const [connectionVisionSelect, setconnectionVisionSelect] = useState("");
   const [connectionMantisSelect, setconnectionMantisSelect] = useState("");
 
@@ -34,8 +38,10 @@ const Migration = () => {
 
   const [isForceCreateTable, setisForceCreateTable] = useState(false);
 
-  const [tbExternalConnectionsResult, settbExternalConnectionsResult] =
-    useState(null);
+  const [
+    tbExternalConnectionsResult,
+    settbExternalConnectionsResult,
+  ] = useState(null);
   const [tbDatasourceResult, settbDatasourceResult] = useState(null);
 
   useEffect(() => {
@@ -82,7 +88,7 @@ const Migration = () => {
               apiName.migration.tbExternalConnections,
               config
             );
-            config.forceCreateTable = true
+            config.forceCreateTable = true;
             const response_tbDatasource = await httpClient.patch(
               apiName.migration.tbDatasource,
               config
@@ -160,10 +166,15 @@ const Migration = () => {
         connection.connection_name === item.connection_name &&
         connection.connection_type === item.connection_type
       ) {
+        const bytes = CryptoJS.AES.decrypt(
+          item.connection_string_encrypt.password,
+          secretKey
+        );
+        const password = bytes.toString(CryptoJS.enc.Utf8);
         setmantisConnection(item.connection_string_encrypt.connection_name);
         setmantisDatabase(item.connection_string_encrypt.database_name);
         setmantisUsername(item.connection_string_encrypt.username);
-        setmantisPassword(item.connection_string_encrypt.password);
+        setmantisPassword(password);
         return;
       }
     }
@@ -177,10 +188,15 @@ const Migration = () => {
         connection.connection_name === item.connection_name &&
         connection.connection_type === item.connection_type
       ) {
+        const bytes = CryptoJS.AES.decrypt(
+          item.connection_string_encrypt.password,
+          secretKey
+        );
+        const password = bytes.toString(CryptoJS.enc.Utf8);
         setvisionConnection(item.connection_string_encrypt.connection_name);
         setvisionDatabase(item.connection_string_encrypt.database_name);
         setvisionUsername(item.connection_string_encrypt.username);
-        setvisionPassword(item.connection_string_encrypt.password);
+        setvisionPassword(password);
         return;
       }
     }
@@ -445,13 +461,11 @@ const Migration = () => {
     if (connection_data.data.api_result == OK) {
       setconnectionListDropDown(connection_data.data.result);
 
-
-      const mantisDropdown = _.filter(
-        connection_data.data.result,
-        function (item) {
-          return item.connection_type == "mantis";
-        }
-      );
+      const mantisDropdown = _.filter(connection_data.data.result, function(
+        item
+      ) {
+        return item.connection_type == "mantis";
+      });
       let newMantisDropdown = [];
       for (let index = 0; index < mantisDropdown.length; index++) {
         const item = mantisDropdown[index];
@@ -466,13 +480,11 @@ const Migration = () => {
       }
       setmantisConnectionListDropDown(newMantisDropdown);
 
-
-      const visionDropdown = _.filter(
-        connection_data.data.result,
-        function (item) {
-          return item.connection_type == "vision";
-        }
-      );
+      const visionDropdown = _.filter(connection_data.data.result, function(
+        item
+      ) {
+        return item.connection_type == "vision";
+      });
       let newVisionDropdown = [];
       for (let index = 0; index < visionDropdown.length; index++) {
         const item = visionDropdown[index];
@@ -500,8 +512,8 @@ const Migration = () => {
     setvisionUsername("");
     setvisionPassword("");
 
-    setconnectionMantisSelect("")
-    setconnectionVisionSelect("")
+    setconnectionMantisSelect("");
+    setconnectionVisionSelect("");
   };
 
   const renderMigrationResult = () => {

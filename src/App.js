@@ -28,6 +28,10 @@ import Login from "./components/Login";
 //Migration
 import Migration from "./components/Migration";
 
+//Report analytics
+import EventLogRawData from "./components/ReportAnalytics/eventLogRawData";
+import DurationAnalysis from "./components/ReportAnalytics/duration_analysis";
+
 import "animate.css";
 import { key } from "./constants";
 import "./App.css";
@@ -135,6 +139,24 @@ const App = () => {
           element={
             <RequireAuth>
               <Migration />
+            </RequireAuth>
+          }
+        />
+
+        {/* Report Analytics */}
+        <Route
+          path="/ReportAnalytics/EventLogRawData"
+          element={
+            <RequireAuth>
+              <EventLogRawData />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/ReportAnalytics/duration_analysis"
+          element={
+            <RequireAuth>
+              <DurationAnalysis />
             </RequireAuth>
           }
         />

@@ -1,11 +1,12 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { NavLink } from "react-router-dom";
-import { apiName, OK } from "../../../constants";
+import { apiName, OK, secretKey } from "../../../constants";
 import { textAreaToArray } from "../../../utils/shareFunction";
 import { httpClient } from "../../../utils/httpClient";
 import moment from "moment";
 import Swal from "sweetalert2";
 import _ from "lodash";
+import CryptoJS from "crypto-js";
 
 const Deploy = () => {
   const [isLoad, setisLoad] = useState(false);
@@ -373,11 +374,15 @@ const Deploy = () => {
         connection.connection_name === item.connection_name &&
         connection.connection_type === item.connection_type
       ) {
-        console.log(item);
+        const bytes = CryptoJS.AES.decrypt(
+          item.connection_string_encrypt.password,
+          secretKey
+        );
+        const password = bytes.toString(CryptoJS.enc.Utf8);
         setconnection(item.connection_string_encrypt.connection_name);
         setdatabase(item.connection_string_encrypt.database_name);
         setusername(item.connection_string_encrypt.username);
-        setpassword(item.connection_string_encrypt.password);
+        setpassword(password);
         return;
       }
     }

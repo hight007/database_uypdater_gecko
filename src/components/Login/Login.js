@@ -8,6 +8,9 @@ import { key } from "../../constants";
 const Login = (props) => {
   const navigate = useNavigate();
 
+  const [username, setusername] = useState("");
+  const [password, setpassword] = useState("");
+
   useEffect(() => {
     doSetisLogined(false);
 
@@ -47,15 +50,17 @@ const Login = (props) => {
   };
 
   const doLogin = async () => {
-    // doSetisLogined(true);
-    // navigate("/home");
-    // window.location.replace("/home");
-    Swal.fire({
-      icon: "error",
-      title: "Oops...",
-      html:
-        "<p>Web not support login by user name or email ,</p> <p>Please log in by google</p>",
-    });
+    doSetisLogined(true);
+    window.location.replace("/home");
+    if (username == "admin@admin.com" && password == "admin") {
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        html:
+          "<p>Web not support login by user name or email ,</p> <p>Please log in by google</p>",
+      });
+    }
   };
 
   function onSuccess(googleUser) {
@@ -103,6 +108,10 @@ const Login = (props) => {
                   type="email"
                   className="form-control"
                   placeholder="Email"
+                  value={username}
+                  onChange={(e) => {
+                    setusername(e.target.value);
+                  }}
                 />
                 <div className="input-group-append">
                   <div className="input-group-text">
@@ -115,6 +124,10 @@ const Login = (props) => {
                   type="password"
                   className="form-control"
                   placeholder="Password"
+                  value={password}
+                  onChange={(e) => {
+                    setpassword(e.target.value);
+                  }}
                 />
                 <div className="input-group-append">
                   <div className="input-group-text">
